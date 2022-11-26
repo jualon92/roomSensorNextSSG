@@ -5,7 +5,8 @@ import styles from '../styles/Home.module.css'
  
 export default function Home( {temperatura}:any) {
 
-  const temp = temperatura.at(-1) 
+  const tempFirst = temperatura.at(-1)
+  
   return (
     <div className={styles.container}>
       <Head>
@@ -15,7 +16,7 @@ export default function Home( {temperatura}:any) {
       </Head>
 
       <main className={styles.main}>
-        <h1>TEMPERATURE LAST READING (5 MIN INTERVALS) :  {temp.temperatura}</h1>
+        <h1>TEMPERATURE LAST READING (5 MIN INTERVALS) :  {tempFirst.temperatura}</h1>
         
       </main>
 
