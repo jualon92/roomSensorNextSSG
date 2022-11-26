@@ -1,12 +1,11 @@
 import Head from 'next/head' 
 import dbConnect from '../lib/mongoose'
 import Temperatura from '../models/Temperatura'
-import styles from '../styles/Home.module.css'
-import { getRandomFrom } from '../utils/utils'
+import styles from '../styles/Home.module.css' 
  
 export default function Home( {temperatura}:any) {
 
-  
+  const temp = temperatura.at(-1) 
   return (
     <div className={styles.container}>
       <Head>
@@ -16,7 +15,7 @@ export default function Home( {temperatura}:any) {
       </Head>
 
       <main className={styles.main}>
-        <h1>TEMPERATURE READING (5 MIN AGO) :{ temperatura[0].temperatura} </h1>
+        <h1>TEMPERATURE LAST READING (5 MIN INTERVALS) :  {temp.temperatura}</h1>
         
       </main>
 
