@@ -1,0 +1,26 @@
+
+.TemperaturasListBox{
+    border: 20px solid #d9dddd!important;
+    display:flex;
+  }
+  
+  .TableItem{
+    display:flex; 
+    flex-direction: column;
+    align-items: center;
+   
+  }
+  .ListItemEven,
+  .ListItemOdd {
+    display: flex;  
+    gap:2rem;  
+    align-items: center; 
+    justify-content: space-evenly;
+  }
+  
+  .ListItemEven {
+    background-color: #f8f8f0;
+  }
+  ul{
+    padding-inline-start: 0px!important;
+  }
