@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
  
 export interface ITemperatura extends mongoose.Document {
   temperatura: number;
-  timestamp?: Date | String;
+  timestamp?: String;
 }
 
 const TemperaturaSchema = new mongoose.Schema({
     temperatura:Number,
-    timestamp:Date || String,
+    timestamp:  String,
 });
 
 
