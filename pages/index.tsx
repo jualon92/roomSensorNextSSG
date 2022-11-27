@@ -6,6 +6,18 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone"; // dependent on utc plugin
 import { FixedSizeList as List } from "react-window"; 
  
+import { TableVirtuoso } from 'react-virtuoso' 
+import React from 'react'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Paper from '@mui/material/Paper'
+
+
+
 
 export default function Home({ temperatura, buildTimestamp }: any) {
   const tempFirst = temperatura.at(-1);
@@ -24,7 +36,7 @@ export default function Home({ temperatura, buildTimestamp }: any) {
 
       <main >
         <h1>ESP32 + DHT11 temperature readings</h1>
-       
+       {/*  
         <div className="TableWrapper"> 
         <List
           innerElementType="ul"
@@ -48,7 +60,42 @@ export default function Home({ temperatura, buildTimestamp }: any) {
             );
           }}
         </List>
-        </div>
+        </div>*/}
+      
+      
+    <TableVirtuoso
+      style={{ height: 400, maxWidth:460 }}
+      data={temperatura}
+      components={{
+         
+        Scroller: React.forwardRef((props, ref) => <TableContainer component={Paper} {...props} ref={ref}  elevation={5} />),
+        Table: (props) => <Table {...props} style={{ borderCollapse: 'separate' }} />,
+        TableHead: TableHead,
+        TableRow: TableRow,
+        TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref} />),
+      }}
+      fixedHeaderContent={() => (
+        <TableRow>
+          <TableCell style={{ width: 150, background: 'white' }}>
+            Temperature
+          </TableCell>
+          <TableCell style={{ background: 'white' }}>
+            Timestamp
+          </TableCell>
+        </TableRow>
+      )}
+      itemContent={(index, temp) => (
+        <>
+          <TableCell style={{ width: 150, background: 'white' }}>
+            {temp.temperatura} °C
+          </TableCell>
+          <TableCell style={{ background: 'white', width: 100,  }}>
+            {temp.timestamp}
+          </TableCell>
+        </>
+      )}
+    /> 
+
       </main>
  
     </div>
