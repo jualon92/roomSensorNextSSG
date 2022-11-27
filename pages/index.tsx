@@ -67,11 +67,14 @@ export default function Home({ temperatura, buildTimestamp }: any) {
       style={{ height: 400, maxWidth:460 }}
       data={temperatura}
       components={{
-         
+    
+        // eslint-disable-next-line react/display-name
         Scroller: React.forwardRef((props, ref) => <TableContainer component={Paper} {...props} ref={ref}  elevation={5} />),
+      
         Table: (props) => <Table {...props} style={{ borderCollapse: 'separate' }} />,
         TableHead: TableHead,
         TableRow: TableRow,
+        // eslint-disable-next-line react/display-name
         TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref} />),
       }}
       fixedHeaderContent={() => (
@@ -84,6 +87,7 @@ export default function Home({ temperatura, buildTimestamp }: any) {
           </TableCell>
         </TableRow>
       )}
+    
       itemContent={(index, temp) => (
         <>
           <TableCell style={{ width: 150, background: 'white' }}>
