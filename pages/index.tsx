@@ -36,6 +36,7 @@ export default function Home({ temperatura, buildTimestamp }: any) {
 
       <main >
         <h1>ESP32 + DHT11 temperature readings</h1>
+        <h2>Time since last build: {buildTimestamp}</h2>
        {/*  
         <div className="TableWrapper"> 
         <List
@@ -83,8 +84,12 @@ export default function Home({ temperatura, buildTimestamp }: any) {
             Temperature
           </TableCell>
           <TableCell style={{ background: 'white' }}>
+            Humidity +/-5%
+          </TableCell>
+          <TableCell style={{ background: 'white' }}>
             Timestamp
           </TableCell>
+           
         </TableRow>
       )}
     
@@ -92,6 +97,9 @@ export default function Home({ temperatura, buildTimestamp }: any) {
         <>
           <TableCell style={{ width: 150, background: 'white' }}>
             {temp.temperatura} °C
+          </TableCell>
+          <TableCell style={{ width: 150, background: 'white' }}>
+            {temp.humidity} 
           </TableCell>
           <TableCell style={{ background: 'white', width: 100,  }}>
             {temp.timestamp}
