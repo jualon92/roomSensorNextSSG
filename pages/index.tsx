@@ -1,12 +1,14 @@
-import Head from 'next/head' 
-import dbConnect from '../lib/mongoose'
-import Temperatura from '../models/Temperatura'
-import styles from '../styles/Home.module.css' 
- 
-export default function Home( {temperatura}:any) {
+import dayjs from "dayjs";
+import Head from "next/head";
+import dbConnect from "../lib/mongoose";
+import Temperatura from "../models/Temperatura";
+import styles from "../styles/Home.module.css";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone"; // dependent on utc plugin
 
-  const tempFirst = temperatura.at(-1)
-  
+export default function Home({ temperatura, buildTimestamp }: any) {
+  const tempFirst = temperatura.at(-1);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -16,26 +18,35 @@ export default function Home( {temperatura}:any) {
       </Head>
 
       <main className={styles.main}>
-        <h1>TEMPERATURE LAST READING (5 MIN INTERVALS) :  {tempFirst.temperatura}</h1>
-        
+        <h1>
+          <div>
+            TEMPERATURE LAST READING (5 MIN INTERVALS) : 
+            {tempFirst.temperatura}  
+            timestamp: {tempFirst.timestamp}
+          </div>
+          <div>last build: {buildTimestamp}</div>
+        </h1>
       </main>
 
-      <footer className={styles.footer}>
-        
-      </footer>
+      <footer className={styles.footer}></footer>
     </div>
-  )
+  );
 }
- 
 
-export async function getStaticProps(context:any) {
-   
-  await dbConnect() 
-  const temperaturasMongo = await Temperatura.find().lean()
- // const temperatura  = temperaturasMongo.map( TempmongoDBEntry =>  TempmongoDBEntry.temperatura)
-  const temperatura =  JSON.parse(JSON.stringify(temperaturasMongo)); 
+export async function getStaticProps(context: any) {
+  await dbConnect();
+  const temperaturasMongo = await Temperatura.find().lean();
+  // const temperatura  = temperaturasMongo.map( TempmongoDBEntry =>  TempmongoDBEntry.temperatura)
+  const temperatura = JSON.parse(JSON.stringify(temperaturasMongo));
+
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+
+  dayjs.tz.setDefault("America/Argentina/Buenos_Aires");
+
+  const buildTimestamp = dayjs().format("HH:mm - DD/MM/YYYY");
 
   return {
-    props: {temperatura}, // will be passed to the page component as props
-  }
+    props: { temperatura, buildTimestamp }, // will be passed to the page component as props
+  };
 }
