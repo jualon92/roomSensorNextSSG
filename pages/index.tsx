@@ -35,7 +35,7 @@ export default function Home({ temperatura, buildTimestamp }: any) {
 
 
       <main >
-        <h1>ESP32 + DHT11 temperature readings</h1>
+        <h1>ESP32 + DHT11 sensor readings</h1>
        {/*  <h2>Time since last build: {buildTimestamp}</h2>  */}
        {/*  
         <div className="TableWrapper"> 
