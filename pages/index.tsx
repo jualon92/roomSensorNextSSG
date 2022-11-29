@@ -105,7 +105,7 @@ export default function Home({ temperatura, buildTimestamp }: any) {
             {temp.humidity} 
           </TableCell>
           <TableCell style={{ width: 150, background: 'white' }}>
-            {temp.airQuality} 
+            {temp.airQuality.toFixed(2) } 
           </TableCell>
           <TableCell style={{ background: 'white', width: 100,  }}>
             {temp.timestamp}
