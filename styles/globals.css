@@ -21,6 +21,8 @@ main{
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  gap: 2rem;
+  
 }
 
 @media (max-width:600px){

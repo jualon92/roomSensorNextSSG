@@ -81,10 +81,13 @@ export default function Home({ temperatura, buildTimestamp }: any) {
       fixedHeaderContent={() => (
         <TableRow>
           <TableCell style={{ width: 150, background: 'white' }}>
-            Temperature
+            Temperature (°C)
           </TableCell>
           <TableCell style={{ background: 'white' }}>
             Humidity +/-5%
+          </TableCell>
+          <TableCell style={{ background: 'white' }}>
+            Air Quality (PPM)
           </TableCell>
           <TableCell style={{ background: 'white' }}>
             Timestamp
@@ -96,10 +99,13 @@ export default function Home({ temperatura, buildTimestamp }: any) {
       itemContent={(index, temp) => (
         <>
           <TableCell style={{ width: 150, background: 'white' }}>
-            {temp.temperatura} °C
+            {temp.temperatura}  
           </TableCell>
           <TableCell style={{ width: 150, background: 'white' }}>
             {temp.humidity} 
+          </TableCell>
+          <TableCell style={{ width: 150, background: 'white' }}>
+            {temp.airQuality} 
           </TableCell>
           <TableCell style={{ background: 'white', width: 100,  }}>
             {temp.timestamp}
