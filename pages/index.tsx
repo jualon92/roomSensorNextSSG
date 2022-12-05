@@ -176,7 +176,7 @@ export default function Home({ temperaturas, buildTimestamp }: any) {
                 {temp.humidity}
               </TableCell>
               <TableCell style={{ width: 150, background: "white" }}>
-                  {!temp.isAirClean ? " Pollutants DETECTED" : "AIR CLEAN"}
+                  {!temp.isAirClean ? "Air Pollutants DETECTED" : "NOT DETECTED"}
               </TableCell>
               <TableCell style={{ background: "white", width: 100 }}>
                 {!temp.isSmokeFree ?  "SMOKE DETECTED" : "NO SMOKE"}
