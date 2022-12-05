@@ -111,7 +111,8 @@ export default function Home({ temperaturas, buildTimestamp }: any) {
         <Typography sx={{ p: 2, maxWidth:"30rem"}}>
         <div> Board: ESPDUINO32 </div>
         <div> Temperature + Humidity:DHT11</div>
-        <div> Air quality: MQ-135 </div> 
+        <div> Toxic Air Pollutants: MQ-135 </div> 
+        <div> Smoke detection: MQ-2 </div> 
         <div> Timestamp: NTP  </div> 
         <div> Arduino Libraries: 
 
