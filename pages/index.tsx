@@ -160,6 +160,9 @@ export default function Home({ temperaturas, buildTimestamp }: any) {
               <TableCell style={{ background: "white" }}>
               Toxic Air Pollutants 
               </TableCell>
+              <TableCell style={{ background: "white" }}>
+              Smoke
+              </TableCell>
 
               <TableCell style={{ background: "white" }}>Timestamp</TableCell>
             </TableRow>
@@ -176,8 +179,12 @@ export default function Home({ temperaturas, buildTimestamp }: any) {
                   {!temp.isAirClean ? "DETECTED" : "NOT DETECTED"}
               </TableCell>
               <TableCell style={{ background: "white", width: 100 }}>
+                {!temp.isSmokeFree ? "NO SMOKE" : "SMOKE DETECTED"}
+              </TableCell>
+              <TableCell style={{ background: "white", width: 100 }}>
                 {temp.timestamp}
               </TableCell>
+             
             </>
           )}
         />
