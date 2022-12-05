@@ -173,9 +173,6 @@ export default function Home({ temperaturas, buildTimestamp }: any) {
                 {temp.humidity}
               </TableCell>
               <TableCell style={{ width: 150, background: "white" }}>
-                {/*isInvalidAirQualityReading(temp.airQuality)
-                  ? "invalid reading"
-          : temp.airQuality.toFixed(2)*/}
                   {!temp.isAirClean ? "DETECTED" : "NOT DETECTED"}
               </TableCell>
               <TableCell style={{ background: "white", width: 100 }}>
