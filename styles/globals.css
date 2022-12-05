@@ -21,7 +21,7 @@ main{
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 0.8rem;
   
 }
 
@@ -32,4 +32,9 @@ main{
     padding-right: 1.5rem;
   } 
   
+}
+
+.BtnSpecs{
+  bottom:20px;
+  right:15px;
 }

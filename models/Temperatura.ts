@@ -4,14 +4,14 @@ export interface ITemperatura extends mongoose.Document {
   temperatura: number;
   timestamp?: String;
   humidity: number;
-  airQuality: number;
+  isAirClean: Boolean;
 }
 
 const TemperaturaSchema = new mongoose.Schema({
     temperatura:Number,
     timestamp:  String,
     humidity: Number,
-    airQuality: Number,
+    isAirClean: Boolean,
 });
 
 
