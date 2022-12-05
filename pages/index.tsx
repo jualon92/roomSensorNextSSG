@@ -98,7 +98,7 @@ export default function Home({ temperaturas, buildTimestamp }: any) {
           horizontal: 'left',
         }}
       >
-        <Typography sx={{ p: 2, maxWidth:"20rem"}}>
+        <Typography sx={{ p: 2, maxWidth:"30rem"}}>
         <div> Board: ESPDUINO32 </div>
         <div> Temperature + Humidity:DHT11</div>
         <div> Air quality: MQ-135 </div> 
@@ -126,7 +126,7 @@ export default function Home({ temperaturas, buildTimestamp }: any) {
         </div>
             
         <TableVirtuoso
-          style={{ height: 400, maxWidth: 460 }}
+          style={{ height: 400, maxWidth: 660 }}
           data={temperaturas}
           components={{
             // eslint-disable-next-line react/display-name
@@ -176,10 +176,10 @@ export default function Home({ temperaturas, buildTimestamp }: any) {
                 {temp.humidity}
               </TableCell>
               <TableCell style={{ width: 150, background: "white" }}>
-                  {!temp.isAirClean ? "DETECTED" : "NOT DETECTED"}
+                  {!temp.isAirClean ? " Pollutants DETECTED" : "AIR CLEAN"}
               </TableCell>
               <TableCell style={{ background: "white", width: 100 }}>
-                {!temp.isSmokeFree ? "NO SMOKE" : "SMOKE DETECTED"}
+                {!temp.isSmokeFree ?  "SMOKE DETECTED" : "NO SMOKE"}
               </TableCell>
               <TableCell style={{ background: "white", width: 100 }}>
                 {temp.timestamp}
