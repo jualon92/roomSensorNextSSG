@@ -22,10 +22,20 @@ import InfoSharpIcon from '@mui/icons-material/InfoSharp';
 import IconButton from '@mui/material/IconButton';
 export default function Home({ temperaturas, buildTimestamp }: any) {
   const getCurrentHour = () => new Date().getHours().toLocaleString();
-  const getLastReadingHour = () => temperaturas[0].timestamp.slice(0, 2);
+  const getLastReadingHour = () => {
+    
+    const lastHourNumber = temperaturas[0].timestamp.slice(0, 2);
+  
+    if (lastHourNumber.substring(0,1) === "0"){
+  
+      return lastHourNumber.replace(0, "")
+     
+    }
+    return lastHourNumber
+  }
 
   //if time registed on last reading does not correspond with the actual time, readings are outdated
-  const areReadingsOnTime = () => getCurrentHour() === getLastReadingHour();
+  const areReadingsOnTime = () => getCurrentHour() === getLastReadingHour() || parseInt(getCurrentHour()) ===  parseInt(getLastReadingHour()) - 1 ;
 
   const getAirQualityStatus = () => {
     if (temperaturas.airQuality < 33) {
@@ -117,7 +127,9 @@ export default function Home({ temperaturas, buildTimestamp }: any) {
             <span>
                Readings are not up to date &#10060;
               <div>
+                {getLastReadingHour()}
               Last reading was at {" "}
+             
               {temperaturas[0].timestamp}  {" "}
               </div>
            
