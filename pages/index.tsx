@@ -36,9 +36,9 @@ export default function Home({ readings }: ReadingProps) {
   }, []);
   
   const getCurrentHour = () => {
-    const hour = new Date().getDate().toString()
+    const hour = new Date()
     console.log("h", hour)
-    return hour
+    return hour.getHours().toString()
   }
 
   const getLastReadingHour = () =>  parseInt(readings[0].timestamp.slice(0, 2))
