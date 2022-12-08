@@ -176,7 +176,8 @@ export default function Home({ readings }: ReadingProps) {
             )}{" "}
           </div>
           <div>
-            {areReadingsOnTime() === false && readings ? ( // setear estado
+            
+            {areReadingsOnTime() === false ? ( // setear estado
                 <span>
                 Readings are not up to date &#10060;
                  <div>
@@ -184,10 +185,10 @@ export default function Home({ readings }: ReadingProps) {
                   {" "}
                 </div>
               </span>
-            ) : (
+            ) : null}
+            {areReadingsOnTime() === true ? (
+              <span> Readings are on schedule &#9989; </span>) : null} 
             
-              <span> Readings are on schedule &#9989; </span>
-            )}
           </div>
         </div>
 
