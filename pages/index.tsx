@@ -14,9 +14,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button, Popover, Typography } from "@mui/material"; 
+import { Button, Popover, Typography } from "@mui/material";
 import InfoSharpIcon from "@mui/icons-material/InfoSharp";
-import IconButton from "@mui/material/IconButton"; 
+import IconButton from "@mui/material/IconButton";
 
 interface Reading {
   temperatura: string;
@@ -29,10 +29,10 @@ interface Reading {
 interface ReadingProps {
   readings: Reading[];
 }
-  
+
 
 export default function Home({ readings }: ReadingProps) {
-  
+
 
 
   dayjs.extend(utc);
@@ -40,26 +40,30 @@ export default function Home({ readings }: ReadingProps) {
 
   dayjs.tz.setDefault("America/Argentina/Buenos_Aires");
 
-  
-  const getCurrentHour =  () => {
-    const hour = new Date()
-    console.log("h", hour)
-     
-  //  const format =  hour.toLocaleString('en-US', { timeZone: 'America/Argentina/Buenos_Aires'})
-  //  console.log("f", format.slice(10,12))
-    //console.log("hora exacta")
-    return dayjs().hour();
+
+  const getCurrentHour = () => {
+    // create Date object for current location
+    var dateP = new Date();
+
+    // convert to milliseconds, add local time zone offset and get UTC time in milliseconds
+    var utcTime = dateP.getTime() + (dateP.getTimezoneOffset() * 60000);
+
+    // time offset for New Zealand is +12
+    var timeOffset = -3;
+
+    // create new Date object for a different timezone using supplied its GMT offset.
+    const dateA =  new Date(utcTime + (3600000 * timeOffset));
+    return dateA.getHours().toString()
   }
 
-  const getLastReadingHour = () =>  parseInt(readings[0].timestamp.slice(0, 2))
+  const getLastReadingHour = () => parseInt(readings[0].timestamp.slice(0, 2))
 
 
   //if time registed on last reading does notg correspond with the actual time, readings are outdated
-  const areReadingsOnTime =  () => 
-  {
-    return ("13" == getLastReadingHour().toString() )
+  const areReadingsOnTime = () => {
+    return ("13" == getLastReadingHour().toString())
   }
- 
+
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -169,8 +173,8 @@ export default function Home({ readings }: ReadingProps) {
           </Popover>
         </div>
         <div>
-       
-        {getCurrentHour()}
+
+          {getCurrentHour()}
           <div>
             {" "}
             {wasThereAnySmokeToday() ? (
@@ -192,19 +196,19 @@ export default function Home({ readings }: ReadingProps) {
             )}{" "}
           </div>
           <div>
-            
+
             {areReadingsOnTime() === false ? ( // setear estado
-                <span>
+              <span>
                 Readings are not up to date &#10060;
-                 <div>
+                <div>
                   Last reading was at {readings[0].timestamp}
                   {" "}
                 </div>
               </span>
             ) : null}
             {areReadingsOnTime() === true ? (
-              <span> Readings are on schedule &#9989; </span>) : null} 
-            
+              <span> Readings are on schedule &#9989; </span>) : null}
+
           </div>
         </div>
 
