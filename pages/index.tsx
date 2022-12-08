@@ -31,7 +31,9 @@ interface ReadingProps {
 }
  
 export default function Home({ readings }: ReadingProps) {
-  
+  useEffect(() => {
+    console.log(areReadingsOnTime())
+  }, []);
   
   const getCurrentHour = () => {
     const hour = new Date().getHours().toLocaleString();
