@@ -34,21 +34,11 @@ export default function Home({ readings }: ReadingProps) {
   
   
   const getCurrentHour = () => new Date().getHours().toLocaleString();
-  const getLastReadingHour = () => {
-    const lastHourNumber = readings[0].timestamp.slice(0, 2);
+  const getLastReadingHour = () =>  parseInt(readings[0].timestamp.slice(0, 2))
 
-    if (lastHourNumber.substring(0, 1) === "0") {
-      return lastHourNumber.replace("0", "");
-    }
-    return lastHourNumber;
-  };
 
   //if time registed on last reading does not correspond with the actual time, readings are outdated
-  const areReadingsOnTime = () =>
-    getCurrentHour() === getLastReadingHour() ||
-    parseInt(getCurrentHour()) === parseInt(getLastReadingHour()) - 1;
-
-  const isInvalidAirQualityReading = (reading: number) => reading > 3000;
+  const areReadingsOnTime = () => getCurrentHour() === getLastReadingHour().toString()
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -187,7 +177,8 @@ export default function Home({ readings }: ReadingProps) {
                 Readings are not up to date &#10060;
                 <div>
                   {getLastReadingHour()}
-                  Last reading was at {readings[0].timestamp}{" "}
+                  Last reading was at {readings[0].timestamp}
+                  {" "}
                 </div>
               </span>
             )}
