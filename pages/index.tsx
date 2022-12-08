@@ -33,14 +33,6 @@ interface ReadingProps {
 
 export default function Home({ readings }: ReadingProps) {
 
-
-
-  dayjs.extend(utc);
-  dayjs.extend(timezone);
-
-  dayjs.tz.setDefault("America/Argentina/Buenos_Aires");
-
-
   const getCurrentHour = () => {
     // create Date object for current location
     var dateP = new Date();
@@ -60,9 +52,7 @@ export default function Home({ readings }: ReadingProps) {
 
 
   //if time registed on last reading does notg correspond with the actual time, readings are outdated
-  const areReadingsOnTime = () => {
-    return ("13" == getLastReadingHour().toString())
-  }
+  const areReadingsOnTime = () =>  getCurrentHour() == getLastReadingHour().toString()
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -174,7 +164,9 @@ export default function Home({ readings }: ReadingProps) {
         </div>
         <div>
 
-          {getCurrentHour()}
+          {/*getCurrentHour()*/}
+          {/*getLastReadingHour()*/}
+          {}
           <div>
             {" "}
             {wasThereAnySmokeToday() ? (
