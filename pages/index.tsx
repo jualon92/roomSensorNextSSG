@@ -170,17 +170,18 @@ export default function Home({ readings }: ReadingProps) {
             )}{" "}
           </div>
           <div>
-            {areReadingsOnTime() ? (
-              <span> Readings are on schedule &#9989; </span>
-            ) : (
-              <span>
+            {!areReadingsOnTime()  ? (
+                <span>
                 Readings are not up to date &#10060;
-             {/*     <div>
+                 <div>
                   {getLastReadingHour()}
                   Last reading was at {readings[0].timestamp}
                   {" "}
-                </div>*/}
+                </div>
               </span>
+            ) : (
+            
+              <span> Readings are on schedule &#9989; </span>
             )}
           </div>
         </div>
