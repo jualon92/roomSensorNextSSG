@@ -33,12 +33,16 @@ interface ReadingProps {
 export default function Home({ readings }: ReadingProps) {
   
   
-  const getCurrentHour = () => new Date().getHours().toLocaleString();
+  const getCurrentHour = () => {
+    const hour = new Date().getHours().toLocaleString();
+    return hour
+  }
+
   const getLastReadingHour = () =>  parseInt(readings[0].timestamp.slice(0, 2))
 
 
   //if time registed on last reading does not correspond with the actual time, readings are outdated
-  const areReadingsOnTime = () => getCurrentHour() === getLastReadingHour().toString()
+  const areReadingsOnTime = () => getCurrentHour() == getLastReadingHour().toString()
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -170,11 +174,10 @@ export default function Home({ readings }: ReadingProps) {
             )}{" "}
           </div>
           <div>
-            {areReadingsOnTime() === false  ? (
+            {areReadingsOnTime() === false  ? ( // setear estado
                 <span>
                 Readings are not up to date &#10060;
                  <div>
-                  {getLastReadingHour()}
                   Last reading was at {readings[0].timestamp}
                   {" "}
                 </div>
