@@ -170,7 +170,7 @@ export default function Home({ readings }: ReadingProps) {
             )}{" "}
           </div>
           <div>
-            {!areReadingsOnTime()  ? (
+            {areReadingsOnTime() === false  ? (
                 <span>
                 Readings are not up to date &#10060;
                  <div>
