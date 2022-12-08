@@ -29,27 +29,35 @@ interface Reading {
 interface ReadingProps {
   readings: Reading[];
 }
- 
-export default function Home({ readings }: ReadingProps) {
-  useEffect(() => {
-    console.log(areReadingsOnTime())
-  }, []);
   
-  const getCurrentHour = async () => {
+
+export default function Home({ readings }: ReadingProps) {
+  
+
+
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+
+  dayjs.tz.setDefault("America/Argentina/Buenos_Aires");
+
+  
+  const getCurrentHour =  () => {
     const hour = new Date()
     console.log("h", hour)
-    const format = await hour.getHours()
-    return format.toString()
+     
+  //  const format =  hour.toLocaleString('en-US', { timeZone: 'America/Argentina/Buenos_Aires'})
+  //  console.log("f", format.slice(10,12))
+    //console.log("hora exacta")
+    return dayjs().hour();
   }
 
   const getLastReadingHour = () =>  parseInt(readings[0].timestamp.slice(0, 2))
 
 
   //if time registed on last reading does notg correspond with the actual time, readings are outdated
-  const areReadingsOnTime = async () => 
+  const areReadingsOnTime =  () => 
   {
-    const hour = await getCurrentHour() 
-    return hour == getLastReadingHour().toString() 
+    return ("13" == getLastReadingHour().toString() )
   }
  
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -161,8 +169,8 @@ export default function Home({ readings }: ReadingProps) {
           </Popover>
         </div>
         <div>
+       
         {getCurrentHour()}
-
           <div>
             {" "}
             {wasThereAnySmokeToday() ? (
