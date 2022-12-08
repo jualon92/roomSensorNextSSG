@@ -175,11 +175,11 @@ export default function Home({ readings }: ReadingProps) {
             ) : (
               <span>
                 Readings are not up to date &#10060;
-                <div>
+             {/*     <div>
                   {getLastReadingHour()}
                   Last reading was at {readings[0].timestamp}
                   {" "}
-                </div>
+                </div>*/}
               </span>
             )}
           </div>
