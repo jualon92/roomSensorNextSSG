@@ -36,7 +36,8 @@ export default function Home({ readings }: ReadingProps) {
   }, []);
   
   const getCurrentHour = () => {
-    const hour = new Date().getHours().toLocaleString();
+    const hour = new Date().getHours().toString();
+    console.log("h", hour)
     return hour
   }
 
@@ -44,7 +45,7 @@ export default function Home({ readings }: ReadingProps) {
 
 
   //if time registed on last reading does notg correspond with the actual time, readings are outdated
-  const areReadingsOnTime = () =>  "11" == getLastReadingHour().toString()
+  const areReadingsOnTime = () => getCurrentHour()  == getLastReadingHour().toString()
  
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -155,6 +156,9 @@ export default function Home({ readings }: ReadingProps) {
           </Popover>
         </div>
         <div>
+        {getLastReadingHour().toString()}
+        {getCurrentHour()}
+
           <div>
             {" "}
             {wasThereAnySmokeToday() ? (
