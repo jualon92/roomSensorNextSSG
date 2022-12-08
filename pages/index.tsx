@@ -44,7 +44,7 @@ export default function Home({ readings }: ReadingProps) {
 
 
   //if time registed on last reading does notg correspond with the actual time, readings are outdated
-  const areReadingsOnTime = () => parseInt(getCurrentHour()).toString() === "11"
+  const areReadingsOnTime = () =>  "11" == getLastReadingHour().toString()
  
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
