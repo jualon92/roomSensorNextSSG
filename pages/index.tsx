@@ -41,7 +41,7 @@ export default function Home({ readings }: ReadingProps) {
   const getLastReadingHour = () =>  parseInt(readings[0].timestamp.slice(0, 2))
 
 
-  //if time registed on last reading does not correspond with the actual time, readings are outdated
+  //if time registed on last reading does notg correspond with the actual time, readings are outdated
   const areReadingsOnTime = () => parseInt(getCurrentHour()).toString() == getLastReadingHour().toString()
  
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -174,7 +174,7 @@ export default function Home({ readings }: ReadingProps) {
             )}{" "}
           </div>
           <div>
-            {areReadingsOnTime() === false  ? ( // setear estado
+            {areReadingsOnTime() === false && readings ? ( // setear estado
                 <span>
                 Readings are not up to date &#10060;
                  <div>
