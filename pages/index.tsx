@@ -198,8 +198,8 @@ export default function Home({ readings }: ReadingProps) {
         </div>
         
         <div>
-          div 
-          {areReadingsOnTime() ? (  <div>Board Uptime: {getHoursDifference()}</div>  ) :  <div> Board offline </div>}
+           
+          {areReadingsOnTime() ? (  <div>Board Uptime: {getHoursDifference()}</div>  ) :  <div> Board offline &#10060; </div>}
           
           {/*getCurrentHour()*/}
           {/*getLastReadingHour()*/}
