@@ -6,7 +6,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone"; // dependent on utc plugin
 
 import { TableVirtuoso } from "react-virtuoso";
-import React, { useEffect } from "react";
+import React  from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -14,9 +14,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button, Popover, Typography } from "@mui/material";
+import {  Popover, Typography } from "@mui/material";
 import InfoSharpIcon from "@mui/icons-material/InfoSharp";
 import IconButton from "@mui/material/IconButton";
+import * as customParseFormat from "dayjs/plugin/customParseFormat";
+import * as duration from "dayjs/plugin/duration";
 
 interface Reading {
   temperatura: string;
@@ -30,29 +32,78 @@ interface ReadingProps {
   readings: Reading[];
 }
 
-
 export default function Home({ readings }: ReadingProps) {
+  const getReadingHour = (reading: Reading) =>
+    parseInt(reading.timestamp.slice(0, 2));
+  const getReadingMinutes = (reading: Reading) =>
+    parseInt(reading.timestamp.substring(5, 3));
+
+  const getPreviousHour = (hour: number) => {
+    if (hour === 0) {
+      return 23;
+    }
+    return hour - 1;
+  };
+  const getHoursDifference = () => {
+    //@ts-ignore
+    dayjs.extend(customParseFormat);
+    //@ts-ignore
+    dayjs.extend(duration);
+     
+    const initialDowntime = getDateOff()?.timestamp;
+    const initialReading = readings[0]?.timestamp;
+    const downtimeDate = dayjs(initialDowntime, "hh:mm:ss - DD/MM/YY");
+    const mostRecentReadingDate = dayjs(initialReading, "hh:mm:ss - DD/MM/YY");
+
+    const difference = dayjs.duration(mostRecentReadingDate.diff(downtimeDate));
+   // console.log(difference.format("HH:mm:ss"));
+
+    return difference.format("HH:mm:ss");
+  };
+
+  const getDateOff = () => {
+    for (let index = 0; index < readings.length - 1; index++) {
+      const initialReading = readings[index];
+      const followUpReading = readings[index + 1];
+
+      const initialHour = getReadingHour(initialReading);
+      const initialMinutes = getReadingMinutes(initialReading);
+
+      const followUpHour = getReadingHour(followUpReading);
+      const followUpMinutes = getReadingMinutes(followUpReading);
+
+      if (followUpMinutes >= 55) {
+        if (getPreviousHour(initialHour) !== followUpHour) {
+          return followUpReading;
+        }
+      } else {
+        if (initialHour !== followUpHour) {
+          return followUpReading;
+        }
+      }
+    }
+  };
 
   const getCurrentHour = () => {
     // create Date object for current location
     var dateP = new Date();
 
     // convert to milliseconds, add local time zone offset and get UTC time in milliseconds
-    var utcTime = dateP.getTime() + (dateP.getTimezoneOffset() * 60000);
+    var utcTime = dateP.getTime() + dateP.getTimezoneOffset() * 60000;
 
     // time offset for New Zealand is +12
     var timeOffset = -3;
 
     // create new Date object for a different timezone using supplied its GMT offset.
-    const dateA =  new Date(utcTime + (3600000 * timeOffset));
-    return dateA.getHours().toString()
-  }
+    const dateA = new Date(utcTime + 3600000 * timeOffset);
+    return dateA.getHours().toString();
+  };
 
-  const getLastReadingHour = () => parseInt(readings[0].timestamp.slice(0, 2))
+  const getLastReadingHour = () => parseInt(readings[0].timestamp.slice(0, 2));
 
-
-  //if time registed on last reading does notg correspond with the actual time, readings are outdated
-  const areReadingsOnTime = () =>  getCurrentHour() == getLastReadingHour().toString()
+  //if time registered on last reading does notg correspond with the actual time, readings are outdated
+  const areReadingsOnTime = () =>
+    getCurrentHour() == getLastReadingHour().toString();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -68,23 +119,6 @@ export default function Home({ readings }: ReadingProps) {
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
-    //@ts-ignore
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
-
-  const getTodayReading = () => {
-    //get all readings starting at 00:00
-    //get all temperatures with 00 hours.
-    const getFirstTemperatures = readings.find(
-      (temp: Reading) => temp.timestamp.slice(0, 2) === "24"
-    );
-  };
 
   const getDayOfReading = (date: string) => {
     const dateString = date.slice(11, 13);
@@ -163,7 +197,7 @@ export default function Home({ readings }: ReadingProps) {
           </Popover>
         </div>
         <div>
-
+          Board Uptime: {getHoursDifference()}
           {/*getCurrentHour()*/}
           {/*getLastReadingHour()*/}
           {}
@@ -188,19 +222,15 @@ export default function Home({ readings }: ReadingProps) {
             )}{" "}
           </div>
           <div>
-
             {areReadingsOnTime() === false ? ( // setear estado
               <span>
                 Readings are not up to date &#10060;
-                <div>
-                  Last reading was at {readings[0].timestamp}
-                  {" "}
-                </div>
+                <div>Last reading was at {readings[0].timestamp} </div>
               </span>
             ) : null}
             {areReadingsOnTime() === true ? (
-              <span> Readings are on schedule &#9989; </span>) : null}
-
+              <span> Readings are on schedule &#9989; </span>
+            ) : null}
           </div>
         </div>
 
@@ -274,7 +304,7 @@ export default function Home({ readings }: ReadingProps) {
 export async function getStaticProps(context: any) {
   await dbConnect();
   const readingsMongo = await Temperatura.find().lean();
-  // const temperatura  = temperaturasMongo.map( TempmongoDBEntry =>  TempmongoDBEntry.temperatura)
+ 
   const readings = JSON.parse(JSON.stringify(readingsMongo)).reverse();
 
   dayjs.extend(utc);
