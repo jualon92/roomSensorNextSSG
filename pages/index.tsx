@@ -196,8 +196,11 @@ export default function Home({ readings }: ReadingProps) {
             </Typography>
           </Popover>
         </div>
+        
         <div>
-          Board Uptime: {getHoursDifference()}
+          div 
+          {areReadingsOnTime() ? (  <div>Board Uptime: {getHoursDifference()}</div>  ) :  <div> Board offline </div>}
+          
           {/*getCurrentHour()*/}
           {/*getLastReadingHour()*/}
           {}
