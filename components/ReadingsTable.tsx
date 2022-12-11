@@ -7,13 +7,12 @@ import {
   TableBody,
   TableCell,
 } from "@mui/material";
-import React, { useEffect } from "react";
-import { TableVirtuoso } from "react-virtuoso";
-import useSWR, { SWRConfig, unstable_serialize } from "swr"
-import { fetcher } from "../utils/utils";
+import React  from "react";
+import { TableVirtuoso } from "react-virtuoso"; 
+import { ReadingProps } from "../utils/Interfaces"; 
 
  
-const ReadingsTable = ({readings}) => {
+const ReadingsTable = ({readings}:ReadingProps) => {
   
  
 
