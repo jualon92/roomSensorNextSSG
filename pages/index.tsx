@@ -5,300 +5,29 @@ import Temperatura from "../models/Temperatura";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone"; // dependent on utc plugin
 
-import { TableVirtuoso } from "react-virtuoso";
-import React  from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import {  Popover, Typography } from "@mui/material";
-import InfoSharpIcon from "@mui/icons-material/InfoSharp";
-import IconButton from "@mui/material/IconButton";
-import * as customParseFormat from "dayjs/plugin/customParseFormat";
-import * as duration from "dayjs/plugin/duration";
+import React from "react";
+import Title from "../components/Title";
+import useSWR, { SWRConfig } from "swr";
+import DataDisplay from "../components/DataDisplay";
 
-interface Reading {
-  temperatura: string;
-  timestamp: string;
-  humidity: string;
-  isAirClean: boolean;
-  isSmokeFree: boolean;
-}
-
-interface ReadingProps {
-  readings: Reading[];
-}
-
-export default function Home({ readings }: ReadingProps) {
-  const getReadingHour = (reading: Reading) =>
-    parseInt(reading.timestamp.slice(0, 2));
-  const getReadingMinutes = (reading: Reading) =>
-    parseInt(reading.timestamp.substring(5, 3));
-
-  const getPreviousHour = (hour: number) => {
-    if (hour === 0) {
-      return 23;
-    }
-    return hour - 1;
-  };
-  const getHoursDifference = () => {
-    //@ts-ignore
-    dayjs.extend(customParseFormat);
-    //@ts-ignore
-    dayjs.extend(duration);
-     
-    const initialDowntime = getDateOff()?.timestamp;
-    const initialReading = readings[0]?.timestamp;
-    const downtimeDate = dayjs(initialDowntime, "hh:mm:ss - DD/MM/YY");
-    const mostRecentReadingDate = dayjs(initialReading, "hh:mm:ss - DD/MM/YY");
-
-    const difference = dayjs.duration(mostRecentReadingDate.diff(downtimeDate));
-   // console.log(difference.format("HH:mm:ss"));
-
-    return difference.format("HH:mm:ss");
-  };
-
-  const getDateOff = () => {
-    for (let index = 0; index < readings.length - 1; index++) {
-      const initialReading = readings[index];
-      const followUpReading = readings[index + 1];
-
-      const initialHour = getReadingHour(initialReading);
-      const initialMinutes = getReadingMinutes(initialReading);
-
-      const followUpHour = getReadingHour(followUpReading);
-      const followUpMinutes = getReadingMinutes(followUpReading);
-
-      if (followUpMinutes >= 55) {
-        if (getPreviousHour(initialHour) !== followUpHour) {
-          return followUpReading;
-        }
-      } else {
-        if (initialHour !== followUpHour) {
-          return followUpReading;
-        }
-      }
-    }
-  };
-
-  const getCurrentHour = () => {
-    // create Date object for current location
-    var dateP = new Date();
-
-    // convert to milliseconds, add local time zone offset and get UTC time in milliseconds
-    var utcTime = dateP.getTime() + dateP.getTimezoneOffset() * 60000;
-
-    // time offset for New Zealand is +12
-    var timeOffset = -3;
-
-    // create new Date object for a different timezone using supplied its GMT offset.
-    const dateA = new Date(utcTime + 3600000 * timeOffset);
-    return dateA.getHours().toString();
-  };
-
-  const getLastReadingHour = () => parseInt(readings[0].timestamp.slice(0, 2));
-
-  //if time registered on last reading does notg correspond with the actual time, readings are outdated
-  const areReadingsOnTime = () =>
-    getCurrentHour() == getLastReadingHour().toString();
-
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
-
-  const getDayOfReading = (date: string) => {
-    const dateString = date.slice(11, 13);
-    const dateWithoutZero = parseInt(dateString);
-    return dateWithoutZero.toString();
-  };
-  const wasThereAnySmokeToday = () => {
-    return readings.some(
-      (reading) =>
-        !reading.isSmokeFree &&
-        getDayOfReading(reading.timestamp) === getToday()
-    );
-  };
-
-  const wasThereAnyToxicGasToday = () => {
-    return readings.some(
-      (reading) =>
-        !reading.isAirClean && getDayOfReading(reading.timestamp) === getToday()
-    );
-  };
-
-  const getToday = () => {
-    const today = new Date().getDate().toString().slice(0, 2);
-
-    return today;
-  };
+ 
+export default function Home({ fallback }:any) {
+  
   return (
     <div>
       <Head>
-        <title>Home Readings</title>
-        <meta name="description" content="Generated by create next app" />
+        <title>Room Readings</title>
+        <meta name="description" content="espduino32 room readings" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <h1>
-          ESPDUINO32 Room Readings{" "}
-          <IconButton
-            color="primary"
-            className={"BtnSpecs"}
-            aria-describedby={id}
-            onClick={handleClick}
-          >
-            {" "}
-            <InfoSharpIcon fontSize="large" />{" "}
-          </IconButton>{" "}
-        </h1>
-
-        <div>
-          <Popover
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-          >
-            <Typography sx={{ p: 2, maxWidth: "30rem" }}>
-              <div> Board: ESPDUINO32 </div>
-              <div> Temperature + Humidity:DHT11</div>
-              <div> Toxic Air Pollutants: MQ-135 </div>
-              <div> Smoke detection: MQ-2 </div>
-              <div> Timestamp: NTP </div>
-              <div>
-                {" "}
-                Arduino Libraries: Wifi.h, HTTPClient.h, ArduinoJson.h,
-                NTPClient.h
-              </div>
-            </Typography>
-          </Popover>
-        </div>
+        <Title />
         
-        <div>
-           
-          {areReadingsOnTime() ? (  <div>Board Uptime: {getHoursDifference()}</div>  ) :  <div> Board offline &#10060; </div>}
-          
-          {/*getCurrentHour()*/}
-          {/*getLastReadingHour()*/}
-          {}
-          <div>
-            {" "}
-            {wasThereAnySmokeToday() ? (
-              <span>Smoke has been detected at some point &#10060;</span>
-            ) : (
-              <span>No smoke detected as of today &#9989;</span>
-            )}{" "}
-          </div>
-          <div>
-            {" "}
-            {wasThereAnyToxicGasToday() ? (
-              <span>
-                Air Pollutants have been detected at some point &#10060;
-              </span>
-            ) : (
-              <span>
-                No Air Pollutant has been detected as of today &#9989;
-              </span>
-            )}{" "}
-          </div>
-          <div>
-            {areReadingsOnTime() === false ? ( // setear estado
-              <span>
-                Readings are not up to date &#10060;
-                <div>Last reading was at {readings[0].timestamp} </div>
-              </span>
-            ) : null}
-            {areReadingsOnTime() === true ? (
-              <span> Readings are on schedule &#9989; </span>
-            ) : null}
-          </div>
-        </div>
-
-        <TableVirtuoso
-          style={{ height: 400, maxWidth: 660 }}
-          data={readings}
-          components={{
-            // eslint-disable-next-line react/display-name
-            Scroller: React.forwardRef((props, ref) => (
-              <TableContainer
-                component={Paper}
-                {...props}
-                ref={ref}
-                elevation={5}
-              />
-            )),
-
-            Table: (props) => (
-              <Table {...props} style={{ borderCollapse: "separate" }} />
-            ),
-            TableHead: TableHead,
-            TableRow: TableRow,
-            // eslint-disable-next-line react/display-name
-            TableBody: React.forwardRef((props, ref) => (
-              <TableBody {...props} ref={ref} />
-            )),
-          }}
-          fixedHeaderContent={() => (
-            <TableRow>
-              <TableCell style={{ width: 150, background: "white" }}>
-                Temperature (°C)
-              </TableCell>
-              <TableCell style={{ background: "white" }}>
-                Humidity +/-5%
-              </TableCell>
-              <TableCell style={{ background: "white" }}>
-                Toxic Air Pollutants
-              </TableCell>
-              <TableCell style={{ background: "white" }}>Smoke</TableCell>
-
-              <TableCell style={{ background: "white" }}>Timestamp</TableCell>
-            </TableRow>
-          )}
-          itemContent={(index, reading) => (
-            <>
-              <TableCell style={{ width: 150, background: "white" }}>
-                {reading.temperatura}
-              </TableCell>
-              <TableCell style={{ width: 150, background: "white" }}>
-                {reading.humidity}
-              </TableCell>
-              <TableCell style={{ width: 150, background: "white" }}>
-                {!reading.isAirClean
-                  ? "Air Pollutants DETECTED"
-                  : "NOT DETECTED"}
-              </TableCell>
-              <TableCell style={{ background: "white", width: 100 }}>
-                {!reading.isSmokeFree ? "SMOKE DETECTED" : "NO SMOKE"}
-              </TableCell>
-              <TableCell style={{ background: "white", width: 100 }}>
-                {reading.timestamp}
-              </TableCell>
-            </>
-          )}
-        />
+        {/*fallback wrapper */}
+        <SWRConfig value={{ fallback }}>  
+          <DataDisplay /> 
+        </SWRConfig>
       </main>
     </div>
   );
@@ -307,8 +36,11 @@ export default function Home({ readings }: ReadingProps) {
 export async function getStaticProps(context: any) {
   await dbConnect();
   const readingsMongo = await Temperatura.find().lean();
- 
-  const readings = JSON.parse(JSON.stringify(readingsMongo)).reverse();
+
+  //get readings from last two days, any more and json payload will be too big as initial load.(blocking operation)
+  const readings = JSON.parse(JSON.stringify(readingsMongo))
+    .reverse()
+    .slice(0, 288);
 
   dayjs.extend(utc);
   dayjs.extend(timezone);
@@ -318,6 +50,11 @@ export async function getStaticProps(context: any) {
   const buildTimestamp = dayjs().format("HH:mm - DD/MM/YYYY");
 
   return {
-    props: { readings, buildTimestamp }, // will be passed to the page component as props
+    props: {
+       
+      fallback: {
+        "/api/temperaturas": readings,
+      },
+    }, // will be passed to the page component as props
   };
 }

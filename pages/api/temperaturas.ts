@@ -20,7 +20,16 @@ const saveTemperatura = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
  
-
+const getTemperatura = async (req: NextApiRequest, res: NextApiResponse) => {
+ 
+    try {
+       
+        const temperaturas = await Temperatura.find()
+        res.status(200).json(temperaturas) 
+    } catch (e) {
+        res.status(500).json({ message: 'Error al obtener temperaturas' });
+    }
+};
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const { method } = req;
     await dbConnect();
@@ -28,8 +37,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     switch (method) {
         case 'POST':
             return saveTemperatura(req, res);
-       /* case 'GET':
-            return getTemperatura(req, res);*/
+        case 'GET':
+            return getTemperatura(req, res); 
     
         default:
             return res.status(405).json({ message: 'Metodo no permitido' });
