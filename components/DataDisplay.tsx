@@ -1,7 +1,7 @@
 import { fetcher } from "../utils/utils";
 
 import useSWR, { SWRConfig, unstable_serialize } from "swr"
-import  Dashboard  from "../components/Dashboard/Dashboard"
+import  Dashboard  from "./Dashboard"
 import ReadingsTable from "./ReadingsTable";
 
 const DataDisplay = () => {

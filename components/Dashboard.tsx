@@ -1,7 +1,7 @@
  
  
-import { Reading, ReadingProps } from "../../utils/Interfaces";
-import { areReadingsOnTime, getHoursDifference } from "../../utils/timeUtils";
+import { Reading, ReadingProps } from "../utils/Interfaces";
+import { areReadingsOnTime, getHoursDifference } from "../utils/timeUtils";
 
 const Dashboard = ({ readings }: ReadingProps) => {
 
@@ -34,7 +34,7 @@ const Dashboard = ({ readings }: ReadingProps) => {
   };
 
   return (
-    <div>
+    <div className="Dashboard">
       {areReadingsUpdated ? (
         <div>Board Uptime {getHoursDifference(readings)}</div>
       ) : (
