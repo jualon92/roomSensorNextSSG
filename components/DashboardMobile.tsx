@@ -3,40 +3,12 @@
 import { Reading, ReadingProps } from "../utils/Interfaces";
 import { areReadingsOnTime, getHoursDifference } from "../utils/timeUtils";
  
-const Dashboard = ({ readings }: ReadingProps) => {
+const DashboardMobile = ({ readings }: ReadingProps) => {
 
 
  
   const areReadingsUpdated = areReadingsOnTime(readings);
-
-
-
-  const smoke = {
-    PCmessages:
-    {
-      affirmative: "Smoke has been detected at some point today",
-      negative: "No smoke detected as of today"
-    },
-    mobileDetectedMessage: { affirmative: "Smoke detected today", negative: "No smoke detected today &#9989" },
-
-  }
-
-  const airPollutants = {
-    PCmessages:
-    {
-      affirmative: "Air Pollutants have been detected at some point today",
-      negative: "Air Pollutants have not been detected as of today"
-    },
-    mobileDetectedMessage: { affirmative: "Air pollutants were detected today", negative: "No Air Pollutants detected today"}
-
-  }
-
-  const getDisplayMessage = (obj: any) => {
-    if (isTabletOrMobile) { //return answer depending on viewport 
-      return obj.mobileMessages
-    }
-    return obj.PCmessages
-  }
+ 
 
   const wasThereAnySmokeToday = () => {
     return readings.some(
@@ -70,22 +42,22 @@ const Dashboard = ({ readings }: ReadingProps) => {
       {areReadingsUpdated ? (
         <div>Board Uptime {getHoursDifference(readings)}</div>
       ) : (
-        <div> Sensors are not available at the moment &#10060; </div>
+        <div> Sensors are not available&#10060; </div>
       )}
       <div>
         {" "}
         {wasThereAnySmokeToday() ? (
-          <span>Smoke has been detected at some point today &#10060;</span>
+          <span>Smoke detected today &#10060;</span>
         ) : (
-          <span>No smoke detected as of today &#9989;</span>
+          <span>No smoke detected today &#9989;</span>
         )}{" "}
       </div>
       <div>
         {" "}
         {wasThereAnyToxicGasToday() ? (
-          <span>Air Pollutants have been detected at some point today &#10060;</span>
+          <span>Air pollutants were detected today &#10060;</span>
         ) : (
-          <span>Air Pollutants have not been detected as of today &#9989;</span>
+          <span>No Air Pollutants detected today &#9989;</span>
         )}{" "}
       </div>
       <div>
@@ -102,4 +74,4 @@ const Dashboard = ({ readings }: ReadingProps) => {
   );
 };
 
-export default Dashboard;
+export default DashboardMobile;
