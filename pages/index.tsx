@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import Head from "next/head";
 import dbConnect from "../lib/mongoose";
 import Temperatura from "../models/Temperatura";
 import utc from "dayjs/plugin/utc";
@@ -9,6 +8,7 @@ import React from "react";
 import Title from "../components/Title";
 import useSWR, { SWRConfig } from "swr";
 import DataDisplay from "../components/DataDisplay";
+import Head from "next/head";
 
  
 export default function Home({ fallback }:any) {

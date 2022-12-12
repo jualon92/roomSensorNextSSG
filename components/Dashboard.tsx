@@ -1,14 +1,51 @@
- 
- 
+
+
 import { Reading, ReadingProps } from "../utils/Interfaces";
 import { areReadingsOnTime, getHoursDifference } from "../utils/timeUtils";
 
+import { useMediaQuery } from 'react-responsive'
 const Dashboard = ({ readings }: ReadingProps) => {
 
+
+
+
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1124px)' })
+
+
   const areReadingsUpdated = areReadingsOnTime(readings);
+
+
+
+  const smoke = {
+    PCmessages:
+    {
+      affirmative: "Smoke has been detected at some point today",
+      negative: "No smoke detected as of today"
+    },
+    mobileDetectedMessage: { affirmative: "Smoke detected today", negative: "No smoke detected today &#9989" },
+
+  }
+
+  const airPollutants = {
+    PCmessages:
+    {
+      affirmative: "Air Pollutants have been detected at some point today",
+      negative: "Air Pollutants have not been detected as of today"
+    },
+    mobileDetectedMessage: { affirmative: "Air pollutants were detected today", negative: "No Air Pollutants detected today"}
+
+  }
+
+  const getDisplayMessage = (obj: any) => {
+    if (isTabletOrMobile) { //return answer depending on viewport 
+      return obj.mobileMessages
+    }
+    return obj.PCmessages
+  }
+
   const wasThereAnySmokeToday = () => {
     return readings.some(
-      (reading:Reading) =>
+      (reading: Reading) =>
         !reading.isSmokeFree &&
         getDayOfReading(reading.timestamp) === getToday()
     );
@@ -16,7 +53,7 @@ const Dashboard = ({ readings }: ReadingProps) => {
 
   const wasThereAnyToxicGasToday = () => {
     return readings.some(
-      (reading:Reading) =>
+      (reading: Reading) =>
         !reading.isAirClean && getDayOfReading(reading.timestamp) === getToday()
     );
   };
@@ -38,22 +75,22 @@ const Dashboard = ({ readings }: ReadingProps) => {
       {areReadingsUpdated ? (
         <div>Board Uptime {getHoursDifference(readings)}</div>
       ) : (
-        <div> Board offline &#10060; </div>
+        <div> Sensors are not available at the moment &#10060; </div>
       )}
       <div>
         {" "}
         {wasThereAnySmokeToday() ? (
-          <span>Smoke has been detected at some point &#10060;</span>
+          <span> {getDisplayMessage(smoke).affirmative} &#10060;</span>
         ) : (
-          <span>No smoke detected as of today &#9989;</span>
+          <span>{getDisplayMessage(smoke).negative} &#9989;</span>
         )}{" "}
       </div>
       <div>
         {" "}
         {wasThereAnyToxicGasToday() ? (
-          <span>Air Pollutants have been detected at some point &#10060;</span>
+          <span>{getDisplayMessage(airPollutants).affirmative} &#10060;</span>
         ) : (
-          <span>No Air Pollutant has been detected as of today &#9989;</span>
+          <span>{getDisplayMessage(airPollutants).negative} &#9989;</span>
         )}{" "}
       </div>
       <div>
