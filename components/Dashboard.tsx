@@ -1,8 +1,9 @@
 
 
 import { Reading, ReadingProps } from "../utils/Interfaces";
+import { wasThereAnySmokeToday, wasThereAnyToxicGasToday } from "../utils/readingsUtils";
 import { areReadingsOnTime, getHoursDifference } from "../utils/timeUtils";
- 
+
 const Dashboard = ({ readings }: ReadingProps) => {
 
 
@@ -10,60 +11,8 @@ const Dashboard = ({ readings }: ReadingProps) => {
   const areReadingsUpdated = areReadingsOnTime(readings);
 
 
-
-  const smoke = {
-    PCmessages:
-    {
-      affirmative: "Smoke has been detected at some point today",
-      negative: "No smoke detected as of today"
-    },
-    mobileDetectedMessage: { affirmative: "Smoke detected today", negative: "No smoke detected today &#9989" },
-
-  }
-
-  const airPollutants = {
-    PCmessages:
-    {
-      affirmative: "Air Pollutants have been detected at some point today",
-      negative: "Air Pollutants have not been detected as of today"
-    },
-    mobileDetectedMessage: { affirmative: "Air pollutants were detected today", negative: "No Air Pollutants detected today"}
-
-  }
-
-  const getDisplayMessage = (obj: any) => {
-    if (isTabletOrMobile) { //return answer depending on viewport 
-      return obj.mobileMessages
-    }
-    return obj.PCmessages
-  }
-
-  const wasThereAnySmokeToday = () => {
-    return readings.some(
-      (reading: Reading) =>
-        !reading.isSmokeFree &&
-        getDayOfReading(reading.timestamp) === getToday()
-    );
-  };
-
-  const wasThereAnyToxicGasToday = () => {
-    return readings.some(
-      (reading: Reading) =>
-        !reading.isAirClean && getDayOfReading(reading.timestamp) === getToday()
-    );
-  };
-
-  const getToday = () => {
-    const today = new Date().getDate().toString().slice(0, 2);
-
-    return today;
-  };
-
-  const getDayOfReading = (date: string) => {
-    const dateString = date.slice(11, 13);
-    const dateWithoutZero = parseInt(dateString);
-    return dateWithoutZero.toString();
-  };
+  
+ 
 
   return (
     <div className="Dashboard">
@@ -74,7 +23,7 @@ const Dashboard = ({ readings }: ReadingProps) => {
       )}
       <div>
         {" "}
-        {wasThereAnySmokeToday() ? (
+        {wasThereAnySmokeToday(readings) ? (
           <span>Smoke has been detected at some point today &#10060;</span>
         ) : (
           <span>No smoke detected as of today &#9989;</span>
@@ -82,7 +31,7 @@ const Dashboard = ({ readings }: ReadingProps) => {
       </div>
       <div>
         {" "}
-        {wasThereAnyToxicGasToday() ? (
+        {wasThereAnyToxicGasToday(readings) ? (
           <span>Air Pollutants have been detected at some point today &#10060;</span>
         ) : (
           <span>Air Pollutants have not been detected as of today &#9989;</span>
