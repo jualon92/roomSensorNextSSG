@@ -69,13 +69,13 @@ const ReadingsTable = ({readings}:ReadingProps) => {
           <TableCell style={{ width: 150, background: "white" }}>
             {reading.humidity}
           </TableCell>
-          <TableCell style={{ width: 200, background: "white" }}>
+          <TableCell style={{ width: 240, background: "white" }}>
             {!reading.isAirClean ? "Air Pollutants DETECTED" : "NOT DETECTED"}
           </TableCell>
-          <TableCell style={{ background: "white", width: 150 }}>
+          <TableCell style={{ background: "white", width: 200 }}>
             {!reading.isSmokeFree ? "SMOKE DETECTED" : "NO SMOKE"}
           </TableCell>
-          <TableCell style={{ background: "white", width: 150 }}>
+          <TableCell style={{ background: "white", width: 200 }}>
             {!reading.isSoundOk? "Harmful noise level detected " : "Safe db level"}
           </TableCell>
           <TableCell style={{ background: "white", width: 100 }}>
