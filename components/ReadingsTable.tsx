@@ -19,9 +19,10 @@ const ReadingsTable = ({readings}:ReadingProps) => {
   return (
    
        
-    
+     <div className="MainTable"> 
     <TableVirtuoso
-      style={{ height: 400, maxWidth: 660 }}
+     
+      style={{ height: 400 }}
       data={readings}
       components={{
         // eslint-disable-next-line react/display-name
@@ -68,14 +69,14 @@ const ReadingsTable = ({readings}:ReadingProps) => {
           <TableCell style={{ width: 150, background: "white" }}>
             {reading.humidity}
           </TableCell>
-          <TableCell style={{ width: 150, background: "white" }}>
+          <TableCell style={{ width: 200, background: "white" }}>
             {!reading.isAirClean ? "Air Pollutants DETECTED" : "NOT DETECTED"}
           </TableCell>
-          <TableCell style={{ background: "white", width: 100 }}>
+          <TableCell style={{ background: "white", width: 150 }}>
             {!reading.isSmokeFree ? "SMOKE DETECTED" : "NO SMOKE"}
           </TableCell>
-          <TableCell style={{ background: "white", width: 100 }}>
-            {!reading.isSoundOk? " Avoid prolonged exposure. Noise level over 70db detected. " : "Safe. Noise below 70 dBA"}
+          <TableCell style={{ background: "white", width: 150 }}>
+            {!reading.isSoundOk? "Harmful noise level detected " : "Safe db level"}
           </TableCell>
           <TableCell style={{ background: "white", width: 100 }}>
             {reading.timestamp}
@@ -83,7 +84,7 @@ const ReadingsTable = ({readings}:ReadingProps) => {
         </>
       )}
     />
-   
+    </div>
   );
 };
 

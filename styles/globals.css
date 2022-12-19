@@ -25,8 +25,11 @@ main{
   
 }
 
- 
+.MainTable{
+  width: 100%;
+}
 @media (max-width:900px){
+  
   body{
 
     padding-left: 1rem;
@@ -55,5 +58,9 @@ main{
 @media screen and (min-width:1278px){
   .Dashboard{
     margin-bottom:1rem;
+     
+  }
+  .MainTable{
+    min-width:130%!important;
   }
 }
