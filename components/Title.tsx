@@ -54,6 +54,7 @@ const Title = () => {
             <div> Temperature + Humidity:DHT11</div>
             <div> Toxic Air Pollutants: MQ-135 </div>
             <div> Smoke detection: MQ-2 </div>
+            <div> Sound sensor:  KY-038 </div>
             <div> Timestamp: NTP </div>
             <div>
               {" "}
