@@ -54,6 +54,8 @@ const ReadingsTable = ({readings}:ReadingProps) => {
             Toxic Air Pollutants
           </TableCell>
           <TableCell style={{ background: "white" }}>Smoke</TableCell>
+          
+          <TableCell style={{ background: "white" }}>Sound Pollution</TableCell>
 
           <TableCell style={{ background: "white" }}>Timestamp</TableCell>
         </TableRow>
@@ -71,6 +73,9 @@ const ReadingsTable = ({readings}:ReadingProps) => {
           </TableCell>
           <TableCell style={{ background: "white", width: 100 }}>
             {!reading.isSmokeFree ? "SMOKE DETECTED" : "NO SMOKE"}
+          </TableCell>
+          <TableCell style={{ background: "white", width: 100 }}>
+            {!reading.isSoundOk? " Avoid prolonged exposure. Noise level over 70db detected. " : "Safe. Noise below 70 dBA"}
           </TableCell>
           <TableCell style={{ background: "white", width: 100 }}>
             {reading.timestamp}

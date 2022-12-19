@@ -6,6 +6,7 @@ export interface ITemperatura extends mongoose.Document {
   humidity: number;
   isAirClean: boolean;
   isSmokeFree: boolean;
+  isSoundOk:boolean;
 }
 
 const TemperaturaSchema = new mongoose.Schema({
@@ -14,6 +15,7 @@ const TemperaturaSchema = new mongoose.Schema({
     humidity: Number,
     isAirClean: Boolean,
     isSmokeFree: Boolean,
+    isSoundOk:Boolean,
 });
 
 

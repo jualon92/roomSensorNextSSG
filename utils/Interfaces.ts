@@ -4,6 +4,7 @@ export interface Reading {
     humidity: string;
     isAirClean: boolean;
     isSmokeFree: boolean;
+    isSoundOk: boolean;
   }
   
 export interface ReadingProps {
