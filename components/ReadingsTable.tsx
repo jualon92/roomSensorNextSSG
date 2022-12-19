@@ -47,10 +47,10 @@ const ReadingsTable = ({readings}:ReadingProps) => {
       }}
       fixedHeaderContent={() => (
         <TableRow>
-          <TableCell style={{ width: 150, background: "white" }}>
+          <TableCell style={{ width: 170, background: "white" }}>
             Temperature (°C)
           </TableCell>
-          <TableCell style={{ background: "white" }}>Humidity +/-5%</TableCell>
+          <TableCell style={{ background: "white", width:170}}>Humidity +/-5%</TableCell>
           <TableCell style={{ background: "white" }}>
             Toxic Air Pollutants
           </TableCell>
