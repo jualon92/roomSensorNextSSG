@@ -60,6 +60,10 @@ main{
     margin-bottom:1rem;
      
   }
+
+  h1{
+    padding-top: 3rem;
+  }
   .MainTable{
     min-width:150%!important;
   }
