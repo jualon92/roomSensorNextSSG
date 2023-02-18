@@ -8,8 +8,7 @@ import {
   TableCell,
 } from "@mui/material";
 import React  from "react";
-import { TableVirtuoso } from "react-virtuoso"; 
-import { isImportTypeAssertionContainer } from "typescript";
+import { TableVirtuoso } from "react-virtuoso";  
 import { Reading, ReadingProps } from "../utils/Interfaces"; 
 
  
@@ -31,7 +30,7 @@ const ReadingsTable = ({readings}:ReadingProps) => {
           <TableContainer
             component={Paper}
             {...props}
-             
+            ref={ref}
             elevation={5}
           />
         )),
@@ -43,7 +42,7 @@ const ReadingsTable = ({readings}:ReadingProps) => {
         TableRow: TableRow,
         // eslint-disable-next-line react/display-name
         TableBody: React.forwardRef((props, ref) => (
-          <TableBody {...props}  />
+          <TableBody {...props} ref={ref} />
         )),
       }}
       fixedHeaderContent={() => (
