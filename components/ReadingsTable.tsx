@@ -10,12 +10,12 @@ import {
 import React  from "react";
 import { TableVirtuoso } from "react-virtuoso"; 
 import { isImportTypeAssertionContainer } from "typescript";
-import { ReadingProps } from "../utils/Interfaces"; 
+import { Reading, ReadingProps } from "../utils/Interfaces"; 
 
  
 const ReadingsTable = ({readings}:ReadingProps) => {
   
-  const isItPair = (index) =>   index % 2 === 0
+  const isItPair = (index:number) =>   index % 2 === 0
 
   return (
    
@@ -31,19 +31,19 @@ const ReadingsTable = ({readings}:ReadingProps) => {
           <TableContainer
             component={Paper}
             {...props}
-            ref={ref}
+             
             elevation={5}
           />
         )),
 
-        Table: (props) => (
+        Table: (props:any) => (
           <Table {...props} style={{ borderCollapse: "separate" }} />
         ),
         TableHead: TableHead,
         TableRow: TableRow,
         // eslint-disable-next-line react/display-name
         TableBody: React.forwardRef((props, ref) => (
-          <TableBody {...props} ref={ref} />
+          <TableBody {...props}  />
         )),
       }}
       fixedHeaderContent={() => (
@@ -66,7 +66,7 @@ const ReadingsTable = ({readings}:ReadingProps) => {
         </TableRow> 
         
       )}
-      itemContent={(index, reading) => (
+      itemContent={(index:number, reading:Reading) => (
         <>
           <TableCell style={{ width: 150, background: isItPair(index) ? "#F5F6F7" : "white", }}>
             {reading.temperatura}
