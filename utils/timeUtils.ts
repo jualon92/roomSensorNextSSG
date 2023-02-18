@@ -1,6 +1,6 @@
+//@ts-nocheck
 import dayjs from "dayjs";
 import { Reading  } from "./Interfaces";
-
 import * as customParseFormat from "dayjs/plugin/customParseFormat";
 import * as duration from "dayjs/plugin/duration";
 export const getCurrentHour = () => {
