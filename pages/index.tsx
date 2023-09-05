@@ -9,9 +9,10 @@ import Title from "../components/Title";
 import useSWR, { SWRConfig } from "swr";
 import DataDisplay from "../components/DataDisplay";
 import Head from "next/head";
+import { ReadingProps } from "../utils/Interfaces";
 
  
-export default function Home({ fallback }:any) {
+export default function Home(readings:ReadingProps) {
   
   return (
     <div>
@@ -24,10 +25,8 @@ export default function Home({ fallback }:any) {
       <main>
         <Title />
         
-        {/*fallback wrapper */}
-        <SWRConfig value={{ fallback }}>  
-          <DataDisplay /> 
-        </SWRConfig>
+          <DataDisplay {...readings} /> 
+           
       </main>
     </div>
   );
@@ -50,11 +49,8 @@ export async function getStaticProps(context: any) {
   const buildTimestamp = dayjs().format("HH:mm - DD/MM/YYYY");
 
   return {
-    props: {
-       
-      fallback: {
-        "/api/temperaturas": readings,
-      },
-    }, // will be passed to the page component as props
+    props: { 
+        readings
+      },  // will be passed to the page component as props
   };
 }

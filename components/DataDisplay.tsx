@@ -5,18 +5,19 @@ import  Dashboard  from "./Dashboard"
 import ReadingsTable from "./ReadingsTable";
 import { useMediaQuery } from 'react-responsive'
 import DashboardMobile from "./DashboardMobile";
+import { ReadingProps } from "../utils/Interfaces";
 
-const DataDisplay = () => {
-    const {data, isLoading, error} = useSWR('/api/temperaturas', fetcher ) 
+const DataDisplay = (readings:ReadingProps) => {
  
 
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1124px)' })
 
 
     return ( 
-        <> 
-        {isTabletOrMobile ? <DashboardMobile readings={data}/> :  <Dashboard readings={data}/>}
-        <ReadingsTable  readings={data}/>
+        <>  
+        
+        {isTabletOrMobile ? <DashboardMobile {...readings}/> :  <Dashboard {...readings}/>}
+        <ReadingsTable  {...readings}/>
         </>
      );
 }

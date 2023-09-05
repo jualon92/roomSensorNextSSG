@@ -19,13 +19,13 @@ export const getCurrentHour = () => {
   };
 
 //@ts-ignore
-export const getLastReadingHour = (readings:any) => parseInt(readings[0].timestamp.slice(0, 2));
+export const getLastReadingHour = (readings:Reading[]) => parseInt(readings[0].timestamp.slice(0, 2));
 //@ts-ignore
-export const areReadingsOnTime = (readings:any) =>  getCurrentHour() == getLastReadingHour(readings).toString();
+export const areReadingsOnTime = (readings:Reading[]) =>  getCurrentHour() == getLastReadingHour(readings).toString();
 
 
 
-export const getHoursDifference = (readings:Array<Reading>) => {
+export const getHoursDifference = (readings:Reading[]) => {
     //@ts-ignore
     dayjs.extend(customParseFormat);
     //@ts-ignore
@@ -42,7 +42,7 @@ export const getHoursDifference = (readings:Array<Reading>) => {
   };
 
   
-  const getDateOff = (readings:Array<Reading>) => {
+  const getDateOff = (readings:Reading[]) => {
     for (let index = 0; index < readings.length - 1; index++) {
       const initialReading = readings[index];
       const followUpReading = readings[index + 1];

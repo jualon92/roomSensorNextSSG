@@ -1,8 +1,8 @@
 import { Reading } from "./Interfaces";
 
+ 
 
-
-export const wasThereAnySmokeToday = (readings:any) => {
+export const wasThereAnySmokeToday = (readings:Reading[]) => {
     return readings.some(
       (reading: Reading) =>
         !reading.isSmokeFree &&
@@ -10,7 +10,7 @@ export const wasThereAnySmokeToday = (readings:any) => {
     );
   };
 
-  export const wasThereAnyToxicGasToday = (readings:any) => {
+  export const wasThereAnyToxicGasToday = (readings:Reading[]) => {
     return readings.some(
       (reading: Reading) =>
         !reading.isAirClean && getDayOfReading(reading.timestamp) === getToday()

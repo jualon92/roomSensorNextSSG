@@ -1,18 +1,13 @@
-
-
-import { Reading, ReadingProps } from "../utils/Interfaces";
-import { wasThereAnySmokeToday, wasThereAnyToxicGasToday } from "../utils/readingsUtils";
+import {  ReadingProps } from "../utils/Interfaces";
+import {
+  wasThereAnySmokeToday,
+  wasThereAnyToxicGasToday,
+} from "../utils/readingsUtils";
 import { areReadingsOnTime, getHoursDifference } from "../utils/timeUtils";
 
 const Dashboard = ({ readings }: ReadingProps) => {
-
-
- 
   const areReadingsUpdated = areReadingsOnTime(readings);
 
-
-  
- 
 
   return (
     <div className="Dashboard">
@@ -32,7 +27,9 @@ const Dashboard = ({ readings }: ReadingProps) => {
       <div>
         {" "}
         {wasThereAnyToxicGasToday(readings) ? (
-          <span>Air Pollutants have been detected at some point today &#10060;</span>
+          <span>
+            Air Pollutants have been detected at some point today &#10060;
+          </span>
         ) : (
           <span>Air Pollutants have not been detected as of today &#9989;</span>
         )}{" "}

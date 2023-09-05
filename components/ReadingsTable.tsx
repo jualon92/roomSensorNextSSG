@@ -13,13 +13,16 @@ import { Reading, ReadingProps } from "../utils/Interfaces";
 
  
 const ReadingsTable = ({readings}:ReadingProps) => {
-  
   const isItPair = (index:number) =>   index % 2 === 0
+  
+ 
 
   return (
    
        
      <div className="MainTable"> 
+ 
+       
     <TableVirtuoso
      
       style={{ height: 470 }}
@@ -35,7 +38,7 @@ const ReadingsTable = ({readings}:ReadingProps) => {
           />
         )),
 
-        Table: (props:any) => (
+        Table: (props) => (
           <Table {...props} style={{ borderCollapse: "separate" }} />
         ),
         TableHead: TableHead,
